@@ -1,7 +1,10 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+import StationList from "./components/StationList.vue";
+import TrainList from "./components/TrainList.vue";
+
 import { provide } from "vue";
+
 
 const apiUrl = "https://tarea-2.2024-1.tallerdeintegracion.cl/api/metro";
 provide("apiUrl", apiUrl);
@@ -28,7 +31,7 @@ provide("webSocket", webSocket);
 </script>
 
 <template>
-    <header>
+    <!-- <header>
         <img
             alt="Vue logo"
             class="logo"
@@ -45,7 +48,16 @@ provide("webSocket", webSocket);
                 <RouterLink to="/about">About</RouterLink>
             </nav>
         </div>
-    </header>
+    </header> -->
+    <div class="row-container">
+        <div class="row" id="top-row">
+            <p>Here goes map</p>
+        </div>
+        <div class="row" id="bottom-row">
+            <StationList />
+            <TrainList />
+        </div>
+    </div>
 
-    <RouterView />
+    
 </template>
