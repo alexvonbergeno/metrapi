@@ -20,13 +20,6 @@
     margin: 1%;
 }
 
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    outline: 1px solid black;
-    margin: 1%;
-}
-
 .list-title {
     border-bottom: 1px solid black;
     font-weight: bold;

@@ -1,23 +1,10 @@
 <script setup>
-import { inject, ref, onMounted } from "vue";
-import axios from "axios";
-
-const trains = ref({ data: [] });
-const loading = ref(true);
-const apiUrl = inject("apiUrl");
-// async function loadStations() {
-//     return axios.get(apiUrl + "/stations")
-// }
-// async function loadLines() {
-//     return axios.get(apiUrl + "/lines")
-// }
-async function loadTrains() {
-    return axios.get(apiUrl + "/trains")
-}
-onMounted(async () => {
-    trains.value = (await loadTrains()).data;
-    loading.value = false;
-})
+const props = defineProps({
+    trains: {
+        type: Array,
+        required: true,
+    }
+});
 </script>
 
 <template>
@@ -34,7 +21,7 @@ onMounted(async () => {
             <p class="list-header train-list-current-station" id="linea-header">Estación Actual</p>
         </div>
         <div class="list-items-container">
-            <div class="list-items" v-for="train in trains">
+            <div class="list-items" v-for="train in props.trains">
                 <p class="list-item train-list-id">{{ train.train_id }}</p>
                 <p class="list-item train-list-driver">{{ train.driver_name }}</p>
                 <p class="list-item train-list-origin">{{ train.origin_station_id }}</p>

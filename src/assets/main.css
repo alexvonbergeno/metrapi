@@ -47,6 +47,7 @@ a,
 .row {
     display: flex;
     flex-direction: row;
+    justify-content: stretch;
     width: 100%;
     margin-right: 2%;
 }
@@ -59,3 +60,22 @@ a,
 /* #botton-row {
     flex-shrink: 10;
 } */
+
+.map-container {
+    height: 100%;
+    width: 75%;
+}
+
+.mainmap {
+    height: 100%;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    outline: 1px solid black;
+    margin: 1%;
+    min-width: 150px;
+    width: 25%;
+    align-self: stretch;
+}

@@ -1,23 +1,10 @@
 <script setup>
-import { inject, ref, onMounted } from "vue";
-import axios from "axios";
-
-const stations = ref({ data: [] });
-const loading = ref(true);
-const apiUrl = inject("apiUrl");
-async function loadStations() {
-    return axios.get(apiUrl + "/stations")
-}
-// async function loadLines() {
-//     return axios.get(apiUrl + "/lines")
-// }
-// async function loadTrains() {
-//     return axios.get(apiUrl + "/trains")
-// }
-onMounted(async () => {
-    stations.value = (await loadStations()).data;
-    loading.value = false;
-})
+const props = defineProps({
+    stations: {
+        type: Array,
+        required: true
+    }
+});
 </script>
 
 <template>
@@ -31,7 +18,7 @@ onMounted(async () => {
             <p class="list-header station-linea">Línea</p>
         </div>
         <div class="list-items-container">
-            <div class="list-items" v-for="station in stations">
+            <div class="list-items" v-for="station in props.stations">
                 <p class="list-item station-estacion">{{ station.name }}</p>
                 <p class="list-item station-id">{{ station.station_id }}</p>
                 <p class="list-item station-linea">{{ station.line_id }}</p>
