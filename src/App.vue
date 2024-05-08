@@ -32,7 +32,7 @@
     const apiUrl = "https://tarea-2.2024-1.tallerdeintegracion.cl/api/metro";
     provide("apiUrl", apiUrl);
 
-    const trains = ref([]);
+    const trains = ref({});
     const stations = ref({});
     const lines = ref([]);
     const loadData = async () => {
@@ -48,6 +48,10 @@
                 searchableStations[st.station_id].line_id += "/" + st.line_id;
             } else {
                 st.trains = [];
+                st.position = {
+                    lat: parseFloat(st.position.lat),
+                    lng: parseFloat(st.position.long)
+                }
                 searchableStations[st.station_id] = st;
             }
         });
@@ -56,7 +60,8 @@
         /* preprocess trains for search by train_id */
         const searchableTrains = {}
         trainList.forEach((tr) => {
-            tr.position = {...stations.value[tr.origin_station_id]};
+            tr.position = {...stations.value[tr.origin_station_id].position};
+            tr.last_station_id = tr.origin_station_id;
             tr.status = "moving";
             tr.passengers = 0;
             searchableTrains[tr.train_id] = tr;
@@ -69,10 +74,7 @@
         let stationCoords = []
         lines.value.forEach((line) => {
             line.station_ids.forEach((st_id) => {
-                stationCoords.push({
-                    lat: parseFloat(stations.value[st_id].position.lat),
-                    lng: parseFloat(stations.value[st_id].position.long)
-                });
+                stationCoords.push({...stations.value[st_id].position});
             })
             line.path = [...stationCoords];
             stationCoords = [];

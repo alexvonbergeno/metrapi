@@ -1,4 +1,5 @@
 <script setup>
+    import { ref } from "vue";
     const props = defineProps({
         train: {
             type: Object,
@@ -9,21 +10,16 @@
             default: 13
         }
     })
-    const icon = "/icons/train" + props.train.line_id + ".png";
-    const parsePosition = (pos) => {
-            return {
-                lat: parseFloat(pos.lat),
-                lng: parseFloat(pos.long)
-            };
-        }
+    const iconUrl = "/icons/train" + props.train.line_id + ".png";
+    const showTrainInfoWindow = ref(false);
 </script>
 
 <template>
     <GMapMarker
         :key="props.train.train_id"
-        :position="parsePosition(props.train.position)"
+        :position="props.train.position"
         :icon="{
-            url: icon,
+            url: iconUrl,
             anchor: {
                 x: 16,
                 y: 12
@@ -33,5 +29,21 @@
                 height: 3 + 0.3*props.zoom
             }
         }"
-        />
+    >
+        <GMapInfoWindow 
+            :opened="showTrainInfoWindow"
+            :closeclick="true"
+        >
+            <div class="train-info-window-container">
+                <h3>Tren: {{ train.train_id }} </h3>
+                <p>Línea: {{ train.line_id }}</p>
+                <p>Conductor: {{ train.driver_name }} </p>
+                <p>Última Estación Visitada: {{ train.last_station_id }}</p>
+                <p>Pasajeros: {{ train.passengers }}</p>
+                <p>Estado: {{ train.status }}</p>
+                <p>Origen: {{ train.origin_station_id }}</p>
+                <p>Destino: {{ train.destination_station_id }}</p>
+            </div>
+        </GMapInfoWindow>
+    </GMapMarker>
 </template>

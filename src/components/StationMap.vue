@@ -10,18 +10,12 @@
             default: 13
         }
     });
-    const showInfoWindow = ref(false);
-    const parsePosition = (pos) => {
-        return {
-            lat: parseFloat(pos.lat),
-            lng: parseFloat(pos.long)
-        };
-    }
+    const showStationInfoWindow = ref(false);
 </script>
 <template>
     <GMapMarker
         :key="props.key"
-        :position="parsePosition(props.station.position)"
+        :position="props.station.position"
         :icon="{
             url: '/icons/BlackDot.png',
             anchor: {
@@ -43,10 +37,10 @@
             text: props.station.station_id,
             fontSize: 0.8*props.zoom + 'px'
         }"
-        @click="showInfoWindow=!showInfoWindow"
+        @click="showStationInfoWindow=!showStationInfoWindow"
     >
         <GMapInfoWindow 
-            :opened="showInfoWindow"
+            :opened="showStationInfoWindow"
             :closeclick="true"
         >
             <div class="station-info-window-container">
