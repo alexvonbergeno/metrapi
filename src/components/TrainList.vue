@@ -1,7 +1,7 @@
 <script setup>
 const props = defineProps({
     trains: {
-        type: Array,
+        type: Object,
         required: true,
     }
 });
@@ -21,7 +21,7 @@ const props = defineProps({
             <p class="list-header train-list-current-station" id="linea-header">Estación Actual</p>
         </div>
         <div class="list-items-container">
-            <div class="list-items" v-for="train in props.trains">
+            <div class="list-items" v-for="train in Object.values(props.trains)">
                 <p class="list-item train-list-id">{{ train.train_id }}</p>
                 <p class="list-item train-list-driver">{{ train.driver_name }}</p>
                 <p class="list-item train-list-origin">{{ train.origin_station_id }}</p>

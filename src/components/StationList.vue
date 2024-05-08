@@ -1,7 +1,7 @@
 <script setup>
 const props = defineProps({
     stations: {
-        type: Array,
+        type: Object,
         required: true
     }
 });
@@ -18,7 +18,7 @@ const props = defineProps({
             <p class="list-header station-linea">Línea</p>
         </div>
         <div class="list-items-container">
-            <div class="list-items" v-for="station in props.stations">
+            <div class="list-items" v-for="station in Object.values(props.stations)">
                 <p class="list-item station-estacion">{{ station.name }}</p>
                 <p class="list-item station-id">{{ station.station_id }}</p>
                 <p class="list-item station-linea">{{ station.line_id }}</p>
