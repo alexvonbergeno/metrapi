@@ -29,7 +29,7 @@
         if (!trains.value[data.train_id]) {
             console.log("Attempting Train Load");
             await loadTrains();
-            return await getOrLoadTrains(data);
+            return trains.value[data.train_id];
         } else {
             return trains.value[data.train_id];
         }
@@ -38,6 +38,9 @@
     webSocket.eventHandlers["position"] = async (e) => {
         let event = JSON.parse(e.data);
         let tr = await getOrLoadTrains(event.data);
+        if (!tr) {
+            return;
+        }
         let newPos = {
             "lat": parseFloat(event.data.position.lat),
             "lng": parseFloat(event.data.position.long)
@@ -51,6 +54,9 @@
     webSocket.eventHandlers["status"] = async (e) => {
         let event = JSON.parse(e.data)
         let tr = await getOrLoadTrains(event.data);
+        if (!tr) {
+            return;
+        }
         tr.status = event.data.status;
         tr.excited = true;
         tr.history.push(event);
@@ -62,6 +68,9 @@
     webSocket.eventHandlers["arrival"] = async (e) => {
         let event = JSON.parse(e.data);
         let tr = await getOrLoadTrains(event.data);
+        if (!tr) {
+            return;
+        }
         tr.last_station_id = event.data.station_id;
         tr.history.push(event);
         stations.value[event.data.station_id].trains.push(tr);
@@ -70,6 +79,9 @@
     webSocket.eventHandlers["departure"] = async (e) => {
         let event = JSON.parse(e.data);
         let tr = await getOrLoadTrains(event.data);
+        if (!tr) {
+            return;
+        }
         tr.history.push(event);
         stations.value[event.data.station_id].trains.filter((train) => train.train_id == tr.train_id);
     }
@@ -77,6 +89,9 @@
     webSocket.eventHandlers["boarding"] = async (e) => {
         let event = JSON.parse(e.data);
         let tr = await getOrLoadTrains(event.data);
+        if (!tr) {
+            return;
+        }
         tr.passengers += parseInt(event.data.boarded_passengers);
         tr.history.push(event)
     }
@@ -84,6 +99,9 @@
     webSocket.eventHandlers["unboarding"] = async (e) => {
         let event = JSON.parse(e.data);
         let tr = await getOrLoadTrains(event.data);
+        if (!tr) {
+            return;
+        }
         tr.passengers -= parseInt(event.data.unboarded_passengers);
         tr.history.push(event);
     }
