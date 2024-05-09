@@ -46,15 +46,15 @@
             <div class="station-info-window-container">
                 <h3>Estación: {{ station.name }} ({{ station.station_id }}) </h3>
                 <p>Línea: {{ station.line_id }} </p>
-                <p>Trenes en Estación:</p>
+                <!-- <p>Trenes en Estación:</p>
                 <ul class="station-info-window-train-list">
-                    <li v-for="tr in station.trains">
+                    <li v-for="tr in Object.values(station.trains)">
                         <ul class="station-info-window-train-description">
                             <li>ID: {{ train.id }}</li>
                             <li>Línea: {{train.line_id}}</li>
                         </ul>
                     </li>
-                </ul>
+                </ul> -->
             </div>
         </GMapInfoWindow>
     </GMapMarker>

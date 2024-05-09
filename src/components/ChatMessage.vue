@@ -7,20 +7,25 @@
         clientUsername: {
             type: String,
             required: true
+        },
+        startTime: {
+            type: Number,
+            required: true
         }
     });
     const containerClass = {
         'message-container': true,
         'self-message': props.clientUsername == props.message.data.name
     }
+
     
 </script>
 
 <template>
     <div :class="containerClass">
-        <h3 class="message-name">{{ message.data.name }}</h3>
-        <p>{{ message.timestamp }}</p>
-        <p class="message-content">{{ message.data.content }}</p>
+        <h3 class="message-name">{{ props.message.data.name }}</h3>
+        <p>{{ props.message.timestamp }}</p>
+        <p class="message-content">{{ props.message.data.content }}</p>
     </div>
 </template>
 
