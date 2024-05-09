@@ -25,8 +25,8 @@
                 y: 16
             },
             scaledSize: {
-                width: 10 + 2*props.zoom,
-                height: 10 + 2*props.zoom
+                width: (1 + props.train.excited)*(10 + 2*props.zoom),
+                height: (1 + props.train.excited)*(10 + 2*props.zoom)
             }
         }"
         :options="{ zIndex: 3 }"
