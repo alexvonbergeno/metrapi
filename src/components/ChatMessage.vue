@@ -45,9 +45,9 @@
 }
 
 .self-message {
-    margin-left: 5px;
-    margin-right: auto;
-    background-color: lightblue;
+    margin-left: 5px !important;
+    margin-right: auto !important;
+    background-color: lightblue !important;
 }
 
 .message-name {
