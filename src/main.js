@@ -1,11 +1,15 @@
-import './assets/main.css'
+import "./assets/main.css";
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from "vue";
+import VueGoogleMaps from "@fawmi/vue-google-maps";
+import App from "./App.vue";
+import router from "./router";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(router)
-
-app.mount('#app')
+app.use(router);
+app.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyAcQxzoE5uarJ9OLpAxvW4bsqDINgOf030',
+    },
+}).mount("#app");
