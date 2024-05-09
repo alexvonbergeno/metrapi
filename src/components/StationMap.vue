@@ -32,7 +32,7 @@
             }
         }"
         :title="props.station.name"
-        :options="{zIndex: 2}"
+        :options="{ zIndex: 2 }"
         :label="{
             text: props.station.station_id,
             fontSize: 0.8*props.zoom + 'px'

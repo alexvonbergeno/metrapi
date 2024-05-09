@@ -27,7 +27,7 @@ const props = defineProps({
                 <p class="list-item train-list-origin">{{ train.origin_station_id }}</p>
                 <p class="list-item train-list-destination">{{ train.destination_station_id }}</p>
                 <p class="list-item train-list-line">{{ train.line_id }}</p>
-                <p class="list-item train-list-current-station">None</p>
+                <p class="list-item train-list-current-station">{{ train.last_station_id }}</p>
             </div>
         </div>
     </div>

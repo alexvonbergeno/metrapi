@@ -2,6 +2,7 @@
     import jsonMapOptions from "../assets/mapOptions.json";
     import StationMap from "./StationMap.vue";
     import MetroLineMap from "./MetroLineMap.vue";
+    import TrainMap from "./TrainMap.vue";
     import { ref } from "vue";
     const props = defineProps({
         stations: {
@@ -44,8 +45,9 @@
             :disableDefaultUI="true"
             v-on:zoom_changed="zoomHandler"
         >
-            <StationMap v-for="(st, index) in Object.values(stations)" :key="index" :station="st" :zoom="zoom"/>
-            <MetroLineMap v-for="(line, index) in lines" :key="index" :line="line"/>
+            <StationMap v-for="(st, index) in Object.values(stations)" :key="'S' + index" :station="st" :zoom="zoom"/>
+            <MetroLineMap v-for="(line, index) in lines" :key="'L' + index" :line="line"/>
+            <TrainMap v-for="(tr, index) in trains" :key="'T' + index" :train="tr" :zoom="zoom"/>
 
         </GMapMap>
     </div>

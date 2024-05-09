@@ -9,10 +9,18 @@
     import { provide, ref } from "vue";
 
     /* WEBSOCKET */
-
+    const clientUsername = "Sebasthian";
     const webSocketServerUrl = "wss://tarea-2.2024-1.tallerdeintegracion.cl/connect";
     const webSocket = new WebSocket(webSocketServerUrl);
-    webSocket.onopen = (event) => console.log(event);
+    webSocket.onopen = (event) => {
+        webSocket.send({
+            "type": "JOIN",
+            "payload": {
+                "id": "15635635",
+                "username": clientUsername
+            }
+        });
+    }
     webSocket.eventTypes = ["position", "status", "arrival", "departure", "boarding", "unboarding", "message"];
     webSocket.eventHandlers = {};
     webSocket.eventTypes.forEach(eventType => {
@@ -26,7 +34,52 @@
             console.log(event);
         }
     }
-    provide("webSocket", webSocket);
+    const getOrCreateTrain = (key) => {
+        if (!(key in Object.keys(trains.value))) {
+            trains.value[key] = {}
+        }
+        return trains.value[key];
+    }
+
+    webSocket.eventHandlers["position"] = (event) => {
+        let tr = getOrCreateTrain(event.data.train_id);
+        let newPos = {
+            lat: parseFloat(event.data.position.lat),
+            lng: parseFloat(event.data.position.long)
+        }
+        tr.position = newPos;
+        tr.line_id = event.data.line_id
+        tr.history.push(event);
+    }
+
+    webSocket.eventHandlers["status"] = (event) => {
+        let tr = trains.value[event.data.train_id];
+        tr.status = event.data.status;
+        tr.history.push(event);
+    }
+
+    webSocket.eventHandlers["arrival"] = (event) => {
+        let tr = trains.value[event.data.train_id];
+        tr.last_station_id = event.data.station_id;
+        tr.history.push(event);
+    }
+
+    webSocket.eventHandlers["departure"] = (event) => {
+        let tr = trains.value[event.data.train_id];
+        tr.history.push(event);
+    }
+
+    webSocket.eventHandlers["boarding"] = (event) => {
+        let tr = trains.value[event.data.train_id];
+        tr.passengers += parseInt(event.data.boarded_passengers);
+        tr.history.push(event);
+    }
+
+    webSocket.eventHandlers["unboarding"] = (event) => {
+        let tr = trains.value[event.data.train_id];
+        tr.passengers -= parseInt(event.data.unboarded_passengers);
+        tr.history.push(event);
+    }
 
     /* Load Data from Server */
     const apiUrl = "https://tarea-2.2024-1.tallerdeintegracion.cl/api/metro";
@@ -64,6 +117,7 @@
             tr.last_station_id = tr.origin_station_id;
             tr.status = "moving";
             tr.passengers = 0;
+            tr.history = [];
             searchableTrains[tr.train_id] = tr;
         })
         trains.value = searchableTrains;
@@ -81,13 +135,14 @@
         });
     };
     loadData();
+    provide("webSocket", webSocket);
 </script>
 
 <template>
     <div class="row-container">
         <div class="row" id="top-row">
             <Map :stations="stations" :trains="trains" :lines="lines" />
-            <ChatBox />
+            <ChatBox :clientUsername="clientUsername"/>
         </div>
         <div class="row" id="bottom-row">
             <StationList :stations="stations"/>

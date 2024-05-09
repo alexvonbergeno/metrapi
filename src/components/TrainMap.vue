@@ -22,13 +22,15 @@
             url: iconUrl,
             anchor: {
                 x: 16,
-                y: 12
+                y: 16
             },
             scaledSize: {
-                width: 3 + 0.3*props.zoom,
-                height: 3 + 0.3*props.zoom
+                width: 10 + 2*props.zoom,
+                height: 10 + 2*props.zoom
             }
         }"
+        :options="{ zIndex: 3 }"
+        @click="showTrainInfoWindow=!showTrainInfoWindow"
     >
         <GMapInfoWindow 
             :opened="showTrainInfoWindow"
