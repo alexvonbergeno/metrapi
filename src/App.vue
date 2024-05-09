@@ -52,7 +52,11 @@
         let event = JSON.parse(e.data)
         let tr = await getOrLoadTrains(event.data);
         tr.status = event.data.status;
+        tr.excited = true;
         tr.history.push(event);
+        setTimeout(() => {
+            tr.excited = false
+        }, 1000)
     }
 
     webSocket.eventHandlers["arrival"] = async (e) => {
@@ -130,9 +134,10 @@
             if (!trains.value[tr.train_id]) {
                 tr.position = {...stations.value[tr.origin_station_id].position};
                 tr.last_station_id = tr.origin_station_id;
-                tr.status = "moving";
+                tr.status = "traveling";
                 tr.passengers = 0;
                 tr.history = [];
+                tr.excited = false;
                 searchableTrains[tr.train_id] = tr;
             } else {
                 searchableTrains[tr.train_id] = trains.value[tr.train_id];

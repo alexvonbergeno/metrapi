@@ -32,7 +32,7 @@
         console.log();
         props.messages.push(newMessage);
         if (props.messages.length > 4) {
-            messages.value = messages.value.slice(1);
+            props.messages = props.messages.slice(1);
         }
     }
 
