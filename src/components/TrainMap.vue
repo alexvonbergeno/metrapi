@@ -45,6 +45,7 @@
                 <p>Estado: {{ train.status }}</p>
                 <p>Origen: {{ train.origin_station_id }}</p>
                 <p>Destino: {{ train.destination_station_id }}</p>
+                <p>Position: {{ train.position }}</p>
             </div>
         </GMapInfoWindow>
     </GMapMarker>

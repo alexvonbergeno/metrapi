@@ -2,18 +2,20 @@
     import { ref, inject } from "vue";
     import ChatMessage from "./ChatMessage.vue";
     const props = defineProps({
+        messages: {
+            type: Array,
+            required: true,
+        },
         clientUsername: {
             type: String,
             required: true
         }
     })
-    const messages = ref([]);
     const newMessageBoxPlaceholder = "Escribe tu mensaje aqui";
     const newMessageText = ref("");
+    const startTime = Date.now()
     const webSocket = inject("webSocket");
-    webSocket.eventHandlers["message"] = (event) => {
-        messages.value.push(event);
-    }
+    
     const sendMessage = () => {
         let newMessage = {
             "type": "MESSAGE",
@@ -22,13 +24,16 @@
             }
         }
         webSocket.send(newMessage);
-        let now = new Date()
-        newMessage.timestamp = now.toLocaleString("es-CL");
+        newMessage.timestamp = new Date().toISOString();
         newMessage.data = {}
         newMessage.data.name = props.clientUsername;
         newMessage.data.content = newMessageText.value;
         newMessageText.value = "";
-        messages.value.push(newMessage);
+        console.log();
+        props.messages.push(newMessage);
+        if (props.messages.length > 4) {
+            messages.value = messages.value.slice(1);
+        }
     }
 
 
@@ -41,7 +46,7 @@
             Chat
         </h3>
         <div id="chat-feed">
-            <ChatMessage v-for="m in messages" :message="m" :clientUsername="props.clientUsername" />
+            <ChatMessage v-for="m in props.messages" :message="m" :clientUsername="props.clientUsername" :startTime="startTime"/>
         </div>
         <div id="chat-box">
             <textarea v-model="newMessageText" :placeholder="newMessageBoxPlaceholder"></textarea>
@@ -75,6 +80,7 @@ textarea {
 .chat-button {
     background-color: lightgray;
     border-radius: 0;
+    width: 20%;
 }
 
 </style>
