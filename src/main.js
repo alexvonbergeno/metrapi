@@ -10,6 +10,6 @@ const app = createApp(App);
 app.use(router);
 app.use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyAcQxzoE5uarJ9OLpAxvW4bsqDINgOf030',
+        key: process.env.GMAP_KEY,
     },
 }).mount("#app");
