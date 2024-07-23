@@ -20,6 +20,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+*.code-workspace
 
 eslint.config.js
-package-lock.json

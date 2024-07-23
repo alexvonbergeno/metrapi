@@ -9,8 +9,9 @@
     import { onMounted, provide, ref } from "vue";
 
     /* WEBSOCKET */
-    const clientUsername = "Sebasthian";
-    const webSocketServerUrl = "wss://tarea-2.2024-1.tallerdeintegracion.cl/connect";
+    const clientUsername = process.env.CLIENT_USERNAME;
+    const clientId = process.env.CLIENT_ID
+    const webSocketServerUrl = process.env.WEB_SOCKET_SERVER_URL;
     const webSocket = new WebSocket(webSocketServerUrl);
     webSocket.eventTypes = ["position", "status", "arrival", "departure", "boarding", "unboarding", "message"];
     webSocket.eventHandlers = {};
@@ -116,7 +117,7 @@
     }
 
     /* Load Data from Server */
-    const apiUrl = "https://tarea-2.2024-1.tallerdeintegracion.cl/api/metro";
+    const apiUrl = process.env.API_URL;
 
     const trains = ref({});
     const stations = ref({});
@@ -194,7 +195,7 @@
             webSocket.send(JSON.stringify({
                 "type": "JOIN",
                 "payload": {
-                    id: "15635635",
+                    id: clientId,
                     username: clientUsername
                 }
             }));
@@ -204,7 +205,7 @@
                 webSocket.send(JSON.stringify({
                     "type": "JOIN",
                     "payload": {
-                        id: "15635635",
+                        id: clientId,
                         username: clientUsername
                     }
                 }));
